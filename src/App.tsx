@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <div className="card">
-        <button class="btn btn-primary">Primary button</button>
+        <button className="btn btn-primary">Primary button</button>
       </div>
     </>
   )
