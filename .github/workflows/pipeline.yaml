@@ -34,6 +34,13 @@ jobs:
           name: vite-react-build
           path: dist/**
 
+      # Upload config
+      - name: Upload build  d
+        uses: actions/upload-artifact@v3
+        with:
+          name: vite-react-config
+          path: config/**
+
   containerize:
     runs-on: ubuntu-latest
     needs: build
