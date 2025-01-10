@@ -53,7 +53,7 @@ jobs:
       - name: Build Docker image
         run: |
           export DOCKER_DEFAULT_PLATFORM=linux/arm64
-          docker build -t ghcr.io/geoshoouh/gf-ui-server:latest .
+          docker build -t image:latest .
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io/geoshoouh -u geoshoouh --password-stdin
