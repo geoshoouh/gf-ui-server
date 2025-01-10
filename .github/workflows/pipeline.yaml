@@ -28,17 +28,11 @@ jobs:
           npm run build
 
       # Upload build modules
-      - name: Upload build modules
+      - name: Upload build  d
         uses: actions/upload-artifact@v3
         with:
-          name: vite-react-modules
-          path: node_modules/**
-      # Upload build content
-      - name: Upload build content
-        uses: actions/upload-artifact@v3
-        with:
-          name: vite-react-content
-          path: dist/**
+          name: vite-react-build
+          path: dist/..
 
   containerize:
     runs-on: ubuntu-latest
@@ -50,16 +44,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Download build modules
-      - name: Download build modules
-        uses: actions/download-artifact@v3
-        with:
-          name: vite-react-modules
        # Download build artifacts
       - name: Download build content
         uses: actions/download-artifact@v3
         with:
-          name: vite-react-dist
+          name: vite-react-build
 
       # Build Docker image
       - name: Build Docker image
