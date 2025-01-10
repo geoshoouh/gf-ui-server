@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: vite-react-build
-          path: dist/**
+          path: ./**
 
   containerize:
     runs-on: ubuntu-latest
