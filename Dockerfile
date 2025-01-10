@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM httpd:2.4
 WORKDIR /app
 COPY . .
 EXPOSE 5173
