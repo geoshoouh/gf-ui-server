@@ -1,5 +1,5 @@
-FROM httpd:2.4
+FROM nginx:alpine
 WORKDIR /app
-COPY . .
+COPY . /usr/share/nginx/html
 EXPOSE 5173
-CMD ["httpd", "-f", "-v"]
+CMD ["nginx", "-g", "daemon off;"]
