@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 interface StatusIndicatorProps {
   subject: string
-  endpoint: string;
+  endpoint?: string;
   interval?: number; // in milliseconds, default is 5000
 }
 
