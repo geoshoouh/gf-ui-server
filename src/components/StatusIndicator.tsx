@@ -22,6 +22,7 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = ({ subject = '', endpoin
             setStatus('error');
           }
         } catch (error) {
+          console.log(error)
           setStatus('error');
         }
       }
