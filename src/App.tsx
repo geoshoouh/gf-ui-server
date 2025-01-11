@@ -1,11 +1,12 @@
 import './App.css'
+import StatusIndicator from './components/StatusIndicator'
 
 function App() {
-
+  
   return (
     <>
       <div className="card">
-        <button className="btn btn-primary">Primary button</button>
+        <StatusIndicator subject="Login Server"/>
       </div>
     </>
   )
