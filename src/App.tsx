@@ -1,15 +1,17 @@
 import './App.css'
+import LoginPage from './components/Login'
 import StatusIndicator from './components/StatusIndicator'
 
 function App() {
 
   // Dev Value; must be on local network
-  const authServerEndpoint: string = "http://rpi2:31772/ping"
+  const authServerEndpoint: string = "http://rpi2:31772"
   
   return (
     <>
       <div className="card">
-        <StatusIndicator endpoint={authServerEndpoint} subject="Login Server"/>
+        <LoginPage endpoint={authServerEndpoint + '/login'}/>
+        <StatusIndicator endpoint={authServerEndpoint + '/ping'} subject="Login Server"/>
       </div>
     </>
   )
