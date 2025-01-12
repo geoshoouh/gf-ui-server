@@ -4,23 +4,34 @@ interface LoginPageProps {
     endpoint: string
 }
 
-const LoginPage: React.FC = (props: LoginPageProps) => {
+const LoginPage: React.FC<LoginPageProps> = ({ endpoint = '' }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const response = await fetch(props.endpoint, {
+
+    const response = await fetch(endpoint, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-            email: email,
-            password: password,
-            role: "Trainer"
+            email,
+            password
         }),
-    }).then((response) => response).catch((error) => console.log(error));
-    if (!response.ok) throw Error(`Response to ${path} was ${response.status}`);
-    return response.json();
+    })
+
+    if (response.ok) {
+      setIsSuccess(true);
+      setMessage('Login Successful');
+
+    } else {
+      setIsSuccess(false);
+      setMessage('Login Failed');
+    }
   };
 
   return (
@@ -53,6 +64,11 @@ const LoginPage: React.FC = (props: LoginPageProps) => {
             />
           </div>
           <button type="submit" className="btn btn-primary w-100">Login</button>
+          {message && (
+          <div className={`alert mt-4 ${isSuccess ? 'alert-success' : 'alert-danger'}`} role="alert">
+            {message}
+          </div>
+          )}
         </form>
       </div>
     </div>

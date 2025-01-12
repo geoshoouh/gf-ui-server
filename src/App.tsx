@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <div className="card">
-        <LoginPage endpoint={authServerEndpoint + '/login'}/>
+        <LoginPage endpoint={authServerEndpoint + '/auth/login'}/>
         <StatusIndicator endpoint={authServerEndpoint + '/ping'} subject="Login Server"/>
       </div>
     </>
