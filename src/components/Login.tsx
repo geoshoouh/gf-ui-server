@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-interface LoginPageProps {
+interface LoginProps {
     endpoint: string
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ endpoint = '' }) => {
+const Login: React.FC<LoginProps> = ({ endpoint = '' }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -75,4 +75,4 @@ const LoginPage: React.FC<LoginPageProps> = ({ endpoint = '' }) => {
   );
 };
 
-export default LoginPage;
+export default Login;
