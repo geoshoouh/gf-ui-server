@@ -3,7 +3,7 @@ import StatusIndicator from "../components/StatusIndicator";
 
 function LoginView() {
 
-    const authServerEndpoint: string = "http://rpi2:31772"
+    const authServerEndpoint: string = "https://auth.gfauth.xyz"
 
     return (
         <>
