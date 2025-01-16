@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface LoginProps {
     endpoint: string
+    authStateFunc: (val: boolean) => void
 }
 
 const Login: React.FC<LoginProps> = ({ endpoint = '' }) => {

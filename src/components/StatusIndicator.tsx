@@ -15,7 +15,7 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = ({ subject = '', endpoin
         setStatus('error');
       } else {
         try {
-          const response = await fetch(endpoint);
+          const response = await fetch(endpoint + '/ping');
           if (response.ok) {
             setStatus('ok');
           } else {
