@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <Routes>
           <Route
             path="/login"
-            element={<Login authStateFunc={ setIsAuthenticated } endpoint={authServerEndpoint} />}
+            element={<Login authStateFunc={ setIsAuthenticated } endpoint={ authServerEndpoint + '/auth/login' } />}
           />
           <Route
             path="/dashboard"
@@ -33,7 +33,7 @@ const App: React.FC = () => {
         </Routes>
       </Router>
       <br/>
-      <StatusIndicator subject="Authentication Server" endpoint={authServerEndpoint}/>
+      <StatusIndicator subject="Authentication Server" endpoint={ authServerEndpoint  + '/ping' }/>
     </>
   )
 }
