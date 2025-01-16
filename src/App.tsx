@@ -2,7 +2,7 @@ import './App.css'
 import Login from './components/Login'
 import StatusIndicator from './components/StatusIndicator'
 
-function App() {
+const App: React.FC = () => {
 
   const authServerEndpoint: string = "https://auth.gfauth.xyz"
   
