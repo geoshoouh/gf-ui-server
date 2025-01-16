@@ -1,11 +1,19 @@
 import './App.css'
-import LoginView from './views/LoginView'
+import Login from './components/Login'
+import StatusIndicator from './components/StatusIndicator'
 
 function App() {
+
+  const authServerEndpoint: string = "https://auth.gfauth.xyz"
   
   return (
     <>
-      <LoginView />
+      <div className="card">
+        <div className="container d-flex justify-content-center align-items-center vh-100">
+          <Login endpoint={authServerEndpoint + '/auth/login'}/>
+        </div>
+        <StatusIndicator subject='Authentication Server' endpoint={authServerEndpoint + '/ping'}/>
+      </div>
     </>
   )
 }
