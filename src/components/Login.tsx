@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
     endpoint: string
     authStateFunc: (val: boolean) => void
 }
 
-const Login: React.FC<LoginProps> = ({ endpoint = '' }) => {
+const Login: React.FC<LoginProps> = ({ authStateFunc, endpoint = '' }) => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -28,7 +31,8 @@ const Login: React.FC<LoginProps> = ({ endpoint = '' }) => {
     if (response.ok) {
       setIsSuccess(true);
       setMessage('Login Successful');
-
+      authStateFunc(true);
+      navigate('/dashboard'); 
     } else {
       setIsSuccess(false);
       setMessage('Login Failed');
