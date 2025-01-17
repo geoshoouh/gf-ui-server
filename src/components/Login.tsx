@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = (props: LoginProps ) => {
     })
 
     if (response.ok) {
-      console.log(response)
+      console.log(await response.json())
 
       setIsSuccess(true);
       setMessage('Login Successful');
