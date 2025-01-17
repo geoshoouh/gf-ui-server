@@ -45,6 +45,14 @@ const Login: React.FC<LoginProps> = (props: LoginProps ) => {
 
   return (
     <div className="card p-4 shadow" style={{ width: '400px' }}>
+      <div className="text-center mb-4">
+        <img
+          src="/src/assets/gfp.webp"
+          alt="Brand Logo"
+          style={{ width: '80px', height: '80px' }}
+          className="d-inline-block align-top"
+        />
+      </div>
       <h2 className="text-center mb-4">Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
