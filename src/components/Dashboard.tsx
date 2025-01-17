@@ -1,8 +1,12 @@
+import Navbar from './Navbar'
 
 const Dashboard: React.FC = () => {
 
     return (
-        <h1>Hi, from dashboard</h1>
+        <>
+            <Navbar />
+            <h1>Hi, from dashboard</h1>
+        </>
     );
 }
 
