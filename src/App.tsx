@@ -24,7 +24,7 @@ const App: React.FC = () => {
             path="/dashboard"
             element={
               appUser.isAuthenticated ? (
-                <Dashboard />
+                <Dashboard role={appUser.role} token={appUser.token} isAuthenticated={appUser.isAuthenticated}/>
               ) : (
                 <Navigate to="/login" replace />
               )
