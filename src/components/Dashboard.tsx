@@ -3,12 +3,18 @@ import GPF_User from '../types/Interfaces';
 
 const Dashboard: React.FC<GPF_User> = ({role, token, isAuthenticated}) => {
 
-    console.log(`role: ${role}, val: ${token.valueOf}, isAuth: ${isAuthenticated}`)
+    const user: GPF_User = {role: role, token: token, isAuthenticated: isAuthenticated};
     
     return (
         <>
             <Navbar />
-            <h1>Hi, from dashboard</h1>
+            {
+                (user.role === 'Admin') 
+                ? 
+                <h1>Admin Stuff</h1> 
+                :
+                <h1>Trainer Stuff</h1>
+            } 
         </>
     );
 }
