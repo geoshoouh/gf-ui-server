@@ -1,8 +1,13 @@
+import Navbar from './Navbar'
+import GPF_User from '../types/Interfaces';
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC<GPF_User> = () => {
 
     return (
-        <h1>Hi, from dashboard</h1>
+        <>
+            <Navbar />
+            <h1>Hi, from dashboard</h1>
+        </>
     );
 }
 

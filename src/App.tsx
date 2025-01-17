@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import StatusIndicator from './components/StatusIndicator'
+import GPF_User from './types/Interfaces';
 
 const App: React.FC = () => {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [appUser, setAppUser] = useState<GPF_User>({role: '', token: '', isAuthenticated: false})
 
   const authServerEndpoint: string = "https://auth.gfauth.xyz"
   
@@ -17,12 +18,12 @@ const App: React.FC = () => {
         <Routes>
           <Route
             path="/login"
-            element={<Login authStateFunc={ setIsAuthenticated } endpoint={ authServerEndpoint + '/auth/login' } />}
+            element={<Login updateUserStateFunc={ setAppUser } endpoint={ authServerEndpoint + '/auth/login' } />}
           />
           <Route
             path="/dashboard"
             element={
-              isAuthenticated ? (
+              appUser.isAuthenticated ? (
                 <Dashboard />
               ) : (
                 <Navigate to="/login" replace />
@@ -38,4 +39,4 @@ const App: React.FC = () => {
   )
 }
 
-export default App
+export default App;

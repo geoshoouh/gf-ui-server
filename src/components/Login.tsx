@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GPF_User from '../types/Interfaces';
 
 interface LoginProps {
     endpoint: string
-    authStateFunc: (val: boolean) => void
+    updateUserStateFunc: (user: GPF_User) => void
 }
 
-const Login: React.FC<LoginProps> = ({ authStateFunc, endpoint = '' }) => {
+const Login: React.FC<LoginProps> = (props: LoginProps ) => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login: React.FC<LoginProps> = ({ authStateFunc, endpoint = '' }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch(endpoint, {
+    const response = await fetch(props.endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,9 +30,12 @@ const Login: React.FC<LoginProps> = ({ authStateFunc, endpoint = '' }) => {
     })
 
     if (response.ok) {
+      console.log(response)
+
       setIsSuccess(true);
       setMessage('Login Successful');
-      authStateFunc(true);
+      const updatedUser: GPF_User = {role: '', token: '', isAuthenticated: true};
+      props.updateUserStateFunc(updatedUser)
       navigate('/dashboard'); 
     } else {
       setIsSuccess(false);
@@ -41,6 +45,14 @@ const Login: React.FC<LoginProps> = ({ authStateFunc, endpoint = '' }) => {
 
   return (
     <div className="card p-4 shadow" style={{ width: '400px' }}>
+      <div className="text-center mb-4">
+        <img
+          src="/src/assets/gfp.webp"
+          alt="Brand Logo"
+          style={{ width: '80px', height: '80px' }}
+          className="d-inline-block align-top"
+        />
+      </div>
       <h2 className="text-center mb-4">Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
