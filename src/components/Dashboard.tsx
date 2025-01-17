@@ -9,7 +9,7 @@ const Dashboard: React.FC<GPF_User> = ({role, token, isAuthenticated}) => {
         <>
             <Navbar />
             {
-                (user.role === 'Admin') 
+                (user.role.toUpperCase() === 'ADMIN') 
                 ? 
                 <h1>Admin Stuff</h1> 
                 :
