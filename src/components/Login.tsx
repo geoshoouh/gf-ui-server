@@ -30,8 +30,8 @@ const Login: React.FC<LoginProps> = (props: LoginProps ) => {
     })
 
     if (response.ok) {
-      const unwrappedResponse: object = await response.json();
-
+      const unwrappedResponse = await response.json();
+      console.log(unwrappedResponse)
       setIsSuccess(true);
       setMessage('Login Successful');
       const updatedUser: GPF_User = {role: unwrappedResponse.user.role, token: unwrappedResponse.token, isAuthenticated: true};
