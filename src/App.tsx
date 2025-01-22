@@ -10,7 +10,7 @@ const App: React.FC = () => {
 
   const [appUser, setAppUser] = useState<GPF_User>({role: '', token: '', isAuthenticated: false})
 
-  const authServerEndpoint: string = "https://authentication.gfproto.xyz"
+  const authServerEndpoint: string = "https://app.gfproto.xyz"
   
   return (
     <>
