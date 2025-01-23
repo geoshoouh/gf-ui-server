@@ -1,23 +1,52 @@
 import React, { useState } from 'react';
 
 interface UserRegistrationFormProps {
-    onRegister: (user: { name: string; email: string; role: string }) => void;
+    endpoint: string
 }
 
-const UserRegistration: React.FC<UserRegistrationFormProps> = ({ onRegister }) => {
+interface NewUser {
+    firstName: string,
+    lastName: string,
+    email: string,
+    role: string,
+    password: string,
+}
+
+const UserRegistration: React.FC<UserRegistrationFormProps> = (props: UserRegistrationFormProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('Trainer'); 
+
+    const password = 'default_password'
+
+    const registrationEndpoint = props.endpoint + '/auth/register'
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
     };
 
+    const onRegister = async (newUser: NewUser) => {
+        const response = await fetch(registrationEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser),
+        })
+    
+        if (response.ok) {
+          const unwrappedResponse = await response.json();
+          console.log(unwrappedResponse)
+        } 
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onRegister({ name, email, role });
-        setName('');
+        onRegister({ firstName, lastName, email, role, password});
+        setFirstName('');
+        setLastName('');
         setEmail('');
         setRole('Trainer');
         setIsExpanded(false);
@@ -33,13 +62,24 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ onRegister }) =
                 <form onSubmit={handleSubmit}>
                     <h5 className="card-title">Register User</h5>
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Name</label>
+                        <label htmlFor="first-name" className="form-label">First Name</label>
                         <input
                             type="text"
-                            id="name"
+                            id="first-name"
                             className="form-control"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="last-name" className="form-label">Last Name</label>
+                        <input
+                            type="text"
+                            id="last-name"
+                            className="form-control"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                             required
                         />
                     </div>

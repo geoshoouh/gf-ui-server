@@ -2,9 +2,17 @@ import Navbar from './Navbar'
 import GPF_User from '../types/Interfaces';
 import UserRegistration from './UserRegistration';
 
-const Dashboard: React.FC<GPF_User> = ({role, token, isAuthenticated}) => {
+interface DashboardProps {
+    role: string,
+    token: string,
+    isAuthenticated: boolean,
+    endpoint: string,
+    user: GPF_User,
+}
 
-    const user: GPF_User = {role: role, token: token, isAuthenticated: isAuthenticated};
+const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
+
+    const user: GPF_User = props.user;
     
     return (
         <>
@@ -13,7 +21,7 @@ const Dashboard: React.FC<GPF_User> = ({role, token, isAuthenticated}) => {
                 (user.role.toUpperCase() === 'ADMIN') 
                 ? 
                 <>
-                    <UserRegistration />
+                    <UserRegistration endpoint={props.endpoint}/>
                 </>
                 :
                 <h1>Trainer Stuff</h1>
