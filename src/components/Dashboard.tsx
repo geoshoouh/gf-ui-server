@@ -1,5 +1,6 @@
 import Navbar from './Navbar'
 import GPF_User from '../types/Interfaces';
+import UserRegistration from './UserRegistration';
 
 const Dashboard: React.FC<GPF_User> = ({role, token, isAuthenticated}) => {
 
@@ -11,7 +12,9 @@ const Dashboard: React.FC<GPF_User> = ({role, token, isAuthenticated}) => {
             {
                 (user.role.toUpperCase() === 'ADMIN') 
                 ? 
-                <h1>Admin Stuff</h1> 
+                <>
+                    <UserRegistration />
+                </>
                 :
                 <h1>Trainer Stuff</h1>
             } 
