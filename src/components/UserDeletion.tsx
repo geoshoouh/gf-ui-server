@@ -8,7 +8,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
     const [isExpanded, setIsExpanded] = useState(false);
     const [email, setEmail] = useState('');
 
-    const deletionEndpoint = props.endpoint + '/auth/delete';
+    const deletionEndpoint = props.endpoint + '/admin/user/delete';
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
