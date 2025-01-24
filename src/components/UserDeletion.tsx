@@ -17,13 +17,12 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
 
     const onDelete = async (email: string) => {
         try {
-            const response = await fetch(deletionEndpoint, {
+            const response = await fetch(deletionEndpoint + `/${email}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${props.token}`,
-                },
-                body: JSON.stringify({ email }),
+                }
             });
 
             if (response.ok) {
