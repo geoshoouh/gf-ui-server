@@ -1,6 +1,7 @@
 import Navbar from './Navbar'
 import GPF_User from '../types/Interfaces';
 import UserRegistration from './UserRegistration';
+import UserDeletion from './UserDeletion';
 
 interface DashboardProps {
     role: string,
@@ -22,6 +23,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
                 ? 
                 <>
                     <UserRegistration endpoint={props.endpoint}/>
+                    <UserDeletion endpoint={props.endpoint}/>
                 </>
                 :
                 <h1>Trainer Stuff</h1>
