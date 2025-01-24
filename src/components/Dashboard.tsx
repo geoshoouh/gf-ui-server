@@ -23,7 +23,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
                 ? 
                 <>
                     <UserRegistration endpoint={props.endpoint}/>
-                    <UserDeletion endpoint={props.endpoint}/>
+                    <UserDeletion endpoint={props.endpoint} token={props.token}/>
                 </>
                 :
                 <h1>Trainer Stuff</h1>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface UserDeletionFormProps {
     endpoint: string;
+    token: string;
 }
 
 const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormProps) => {
@@ -20,6 +21,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${props.token}`,
                 },
                 body: JSON.stringify({ email }),
             });
