@@ -20,7 +20,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
         const emailObject = { email: email };
 
         try {
-            console.log("stringed: " + JSON.stringify(email))
+
             const response = await fetch(deletionEndpoint, {
                 method: 'POST',
                 headers: {
