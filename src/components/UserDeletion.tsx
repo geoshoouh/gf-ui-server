@@ -14,15 +14,20 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
     };
-
+    
     const onDelete = async (email: string) => {
+
+        const emailObject = { email: email };
+
         try {
-            const response = await fetch(deletionEndpoint + `/${email}`, {
-                method: 'DELETE',
+            console.log("stringed: " + JSON.stringify(email))
+            const response = await fetch(deletionEndpoint, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${props.token}`,
-                }
+                },
+                body: JSON.stringify(emailObject),
             });
 
             if (response.ok) {

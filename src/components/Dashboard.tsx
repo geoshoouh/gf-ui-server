@@ -22,7 +22,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
                 (user.role.toUpperCase() === 'ADMIN') 
                 ? 
                 <>
-                    <UserRegistration endpoint={props.endpoint}/>
+                    <UserRegistration endpoint={props.endpoint} token={props.token}/>
                     <UserDeletion endpoint={props.endpoint} token={props.token}/>
                 </>
                 :

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface UserRegistrationFormProps {
     endpoint: string
+    token: string
 }
 
 interface NewUser {
@@ -31,7 +32,8 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = (props: UserRegist
         const response = await fetch(registrationEndpoint, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${props.token}`,
             },
             body: JSON.stringify(newUser),
         })
