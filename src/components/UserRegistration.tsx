@@ -21,7 +21,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = (props: UserRegist
 
     const password = 'default_password'
 
-    const registrationEndpoint = props.endpoint + '/auth/register'
+    const registrationEndpoint = props.endpoint + '/admin/register'
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
