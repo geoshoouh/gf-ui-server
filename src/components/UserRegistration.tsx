@@ -1,52 +1,67 @@
 import React, { useState } from 'react';
 
 interface UserRegistrationFormProps {
-    endpoint: string
-    token: string
+    endpoint: string;
+    token: string;
 }
 
 interface NewUser {
-    firstName: string,
-    lastName: string,
-    email: string,
-    role: string,
-    password: string,
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+    password: string;
 }
 
-const UserRegistration: React.FC<UserRegistrationFormProps> = (props: UserRegistrationFormProps) => {
+const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState('Trainer'); 
+    const [role, setRole] = useState('Trainer');
+    const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' | null }>({
+        message: '',
+        type: null,
+    });
 
-    const password = 'default_password'
-
-    const registrationEndpoint = props.endpoint + '/admin/register'
+    const password = 'default_password';
+    const registrationEndpoint = `${endpoint}/admin/register`;
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
+        setFeedback({ message: '', type: null });
     };
 
     const onRegister = async (newUser: NewUser) => {
-        const response = await fetch(registrationEndpoint, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${props.token}`,
-            },
-            body: JSON.stringify(newUser),
-        })
-    
-        if (response.ok) {
-          const unwrappedResponse = await response.json();
-          console.log(unwrappedResponse)
-        } 
+        try {
+            const response = await fetch(registrationEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(newUser),
+            });
+
+            if (response.ok) {
+                const unwrappedResponse = await response.json();
+                console.log(unwrappedResponse);
+                setFeedback({ message: 'User successfully registered!', type: 'success' });
+            } else {
+                setFeedback({
+                    message: `Failed to register user: ${response.statusText}`,
+                    type: 'error',
+                });
+            }
+        } catch (error) {
+            console.error('Error while registering user:', error);
+            setFeedback({ message: 'An error occurred while registering the user.', type: 'error' });
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onRegister({ firstName, lastName, email, role, password});
+        onRegister({ firstName, lastName, email, role, password });
         setFirstName('');
         setLastName('');
         setEmail('');
@@ -118,6 +133,16 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = (props: UserRegist
                         </button>
                     </div>
                 </form>
+            )}
+            {feedback.message && (
+                <div
+                    className={`alert mt-3 ${
+                        feedback.type === 'success' ? 'alert-success' : 'alert-danger'
+                    }`}
+                    role="alert"
+                >
+                    {feedback.message}
+                </div>
             )}
         </div>
     );
