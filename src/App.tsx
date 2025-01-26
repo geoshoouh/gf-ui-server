@@ -5,10 +5,11 @@ import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import StatusIndicator from './components/StatusIndicator'
 import GPF_User from './types/Interfaces';
+import ChangePassword from './components/ChangePassword';
 
 const App: React.FC = () => {
 
-  const [appUser, setAppUser] = useState<GPF_User>({role: '', token: '', isAuthenticated: false})
+  const [appUser, setAppUser] = useState<GPF_User>({email: '', role: '', token: '', isAuthenticated: false})
 
   const authServerEndpoint: string = "https://app.gfproto.xyz"
   
@@ -20,11 +21,15 @@ const App: React.FC = () => {
             path="/login"
             element={<Login updateUserStateFunc={ setAppUser } endpoint={ authServerEndpoint + '/auth/login' } />}
           />
+          <Route 
+            path="change-password"
+            element={<ChangePassword endpoint={ authServerEndpoint } appUser={ appUser }/>}
+          />
           <Route
             path="/dashboard"
             element={
               appUser.isAuthenticated ? (
-                <Dashboard endpoint={authServerEndpoint} user={appUser} role={appUser.role} token={appUser.token} isAuthenticated={appUser.isAuthenticated}/>
+                <Dashboard endpoint={ authServerEndpoint } user={ appUser } role={ appUser.role } token={ appUser.token } isAuthenticated={ appUser.isAuthenticated }/>
               ) : (
                 <Navigate to="/login" replace />
               )

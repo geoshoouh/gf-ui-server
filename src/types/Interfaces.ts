@@ -1,4 +1,5 @@
 interface GPF_User {
+    email: string,
     role: string,
     token: string,
     isAuthenticated: boolean
