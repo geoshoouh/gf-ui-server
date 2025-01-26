@@ -5,27 +5,30 @@ interface UserDeletionFormProps {
     token: string;
 }
 
-const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormProps) => {
+const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [email, setEmail] = useState('');
+    const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' | null }>({
+        message: '',
+        type: null,
+    });
 
-    const deletionEndpoint = props.endpoint + '/admin/user/delete';
+    const deletionEndpoint = `${endpoint}/admin/user/delete`;
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
+        setFeedback({ message: '', type: null });
     };
-    
-    const onDelete = async (email: string) => {
 
-        const emailObject = { email: email };
+    const onDelete = async (email: string) => {
+        const emailObject = { email };
 
         try {
-
             const response = await fetch(deletionEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${props.token}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(emailObject),
             });
@@ -33,11 +36,13 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
             if (response.ok) {
                 const unwrappedResponse = await response.json();
                 console.log(unwrappedResponse);
+                setFeedback({ message: 'User successfully deleted!', type: 'success' });
             } else {
-                console.error('Failed to delete user:', response.statusText);
+                setFeedback({ message: `Failed to delete user: ${response.statusText}`, type: 'error' });
             }
         } catch (error) {
             console.error('Error while deleting user:', error);
+            setFeedback({ message: 'An error occurred while deleting the user.', type: 'error' });
         }
     };
 
@@ -77,6 +82,16 @@ const UserDeletion: React.FC<UserDeletionFormProps> = (props: UserDeletionFormPr
                         </button>
                     </div>
                 </form>
+            )}
+            {feedback.message && (
+                <div
+                    className={`alert mt-3 ${
+                        feedback.type === 'success' ? 'alert-success' : 'alert-danger'
+                    }`}
+                    role="alert"
+                >
+                    {feedback.message}
+                </div>
             )}
         </div>
     );
