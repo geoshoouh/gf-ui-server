@@ -8,6 +8,7 @@ interface UserDeletionFormProps {
 const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [email, setEmail] = useState('');
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' | null }>({
         message: '',
         type: null,
@@ -20,7 +21,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
         setFeedback({ message: '', type: null });
     };
 
-    const onDelete = async (email: string) => {
+    const onDelete = async () => {
         const emailObject = { email };
 
         try {
@@ -44,13 +45,17 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
             console.error('Error while deleting user:', error);
             setFeedback({ message: 'An error occurred while deleting the user.', type: 'error' });
         }
+
+        setShowConfirmation(false);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onDelete(email);
-        setEmail('');
-        setIsExpanded(false);
+        setShowConfirmation(true); // Show confirmation modal
+    };
+
+    const handleCancel = () => {
+        setShowConfirmation(false);
     };
 
     return (
@@ -91,6 +96,48 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
                     role="alert"
                 >
                     {feedback.message}
+                </div>
+            )}
+
+            {showConfirmation && (
+                <div
+                    className="modal"
+                    style={{
+                        display: 'block',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }}
+                >
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Confirm Deletion</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={handleCancel}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>Are you sure you want to delete the user with email <strong>{email}</strong>?</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={handleCancel}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={onDelete}
+                                >
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
