@@ -49,7 +49,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
                 setFeedback({ message: 'User successfully registered!', type: 'success' });
             } else {
                 setFeedback({
-                    message: `Failed to register user: ${response.statusText}`,
+                    message: `Failed to register user: ${response.status}`,
                     type: 'error',
                 });
             }

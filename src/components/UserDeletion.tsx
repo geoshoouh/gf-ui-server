@@ -38,7 +38,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
                 console.log(unwrappedResponse);
                 setFeedback({ message: 'User successfully deleted!', type: 'success' });
             } else {
-                setFeedback({ message: `Failed to delete user: ${response.statusText}`, type: 'error' });
+                setFeedback({ message: `Failed to delete user: ${response.status}`, type: 'error' });
             }
         } catch (error) {
             console.error('Error while deleting user:', error);
