@@ -38,8 +38,13 @@ const App: React.FC = () => {
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
-      <br/>
-      <StatusIndicator subject="Authentication Server" endpoint={ authServerEndpoint  + '/ping' }/>
+      <div
+      className="position-fixed bottom-0 start-0 d-flex flex-column"
+      style={{ margin: "20px", zIndex: 1050 }}
+      >
+        <StatusIndicator subject="Authentication Server" endpoint={ authServerEndpoint  + '/ping' }/>
+        <StatusIndicator subject="Data Server" endpoint={ authServerEndpoint  + '/ping/data-server' }/>
+      </div>
     </>
   )
 }
