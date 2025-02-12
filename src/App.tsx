@@ -11,6 +11,7 @@ const App: React.FC = () => {
 
   const [appUser, setAppUser] = useState<GPF_User>({email: '', role: '', token: '', isAuthenticated: false})
 
+  // TODO: make domain more generic
   const authServerEndpoint: string = "https://app.gfproto.xyz"
   
   return (
