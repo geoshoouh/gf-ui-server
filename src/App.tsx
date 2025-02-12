@@ -43,7 +43,7 @@ const App: React.FC = () => {
       style={{ margin: "20px", zIndex: 1050 }}
       >
         <StatusIndicator subject="Authentication Server" endpoint={ authServerEndpoint  + '/ping' }/>
-        <StatusIndicator subject="Data Server" endpoint={ authServerEndpoint  + '/ping/data-server' }/>
+        <StatusIndicator subject="Data Server" endpoint={ authServerEndpoint  + '/ping-data-server' }/>
       </div>
     </>
   )
