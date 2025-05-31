@@ -1,7 +1,6 @@
 import Navbar from './Navbar'
 import GPF_User from '../types/Interfaces';
-import UserRegistration from './UserRegistration';
-import UserDeletion from './UserDeletion';
+import UserManagementView from './UserManagementView';
 
 interface DashboardProps {
     role: string,
@@ -22,8 +21,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
                 (user.role.toUpperCase() === 'ADMIN') 
                 ? 
                 <>
-                    <UserRegistration endpoint={props.endpoint} token={props.token}/>
-                    <UserDeletion endpoint={props.endpoint} token={props.token}/>
+                    <UserManagementView endpoint={props.endpoint} token={props.token}/>
                 </>
                 :
                 <h1>Trainer Stuff</h1>

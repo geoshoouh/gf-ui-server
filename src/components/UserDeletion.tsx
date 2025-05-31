@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
+import UserManagementViewComponentEnum from '../types/Enums';
 
 interface UserDeletionFormProps {
     endpoint: string;
     token: string;
+    openFormCallback: (component: UserManagementViewComponentEnum) => void;
+    renderOpen: boolean;
 }
 
-const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFormCallback, renderOpen }) => {
     const [email, setEmail] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' | null }>({
         message: '',
         type: null,
     });
-
+    
     const deletionEndpoint = `${endpoint}/admin/user/delete`;
 
     const handleToggle = () => {
-        setIsExpanded(!isExpanded);
         setFeedback({ message: '', type: null });
+
+        openFormCallback(UserManagementViewComponentEnum.USER_DELETION);
     };
 
     const onDelete = async () => {
@@ -60,7 +63,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token }) => {
 
     return (
         <div className="card shadow-sm p-3 mb-5 bg-white rounded" style={{ width: '18rem' }}>
-            {!isExpanded ? (
+            {!renderOpen ? (
                 <button onClick={handleToggle} className="btn btn-danger w-100">
                     Delete User
                 </button>

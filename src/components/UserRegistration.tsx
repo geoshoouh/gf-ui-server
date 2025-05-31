@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import UserManagementViewComponentEnum from '../types/Enums';
 
 interface UserRegistrationFormProps {
     endpoint: string;
     token: string;
+    openFormCallback: (component: UserManagementViewComponentEnum) => void;
+    renderOpen: boolean;
 }
 
 interface NewUser {
@@ -13,8 +16,7 @@ interface NewUser {
     password: string;
 }
 
-const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token, openFormCallback, renderOpen }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -28,8 +30,9 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
     const registrationEndpoint = `${endpoint}/admin/register`;
 
     const handleToggle = () => {
-        setIsExpanded(!isExpanded);
         setFeedback({ message: '', type: null });
+
+        openFormCallback(UserManagementViewComponentEnum.USER_REGISTRATION);
     };
 
     const onRegister = async (newUser: NewUser) => {
@@ -66,12 +69,11 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
         setLastName('');
         setEmail('');
         setRole('Trainer');
-        setIsExpanded(false);
     };
 
     return (
         <div className="card shadow-sm p-3 mb-5 bg-white rounded" style={{ width: '18rem' }}>
-            {!isExpanded ? (
+            {!renderOpen ? (
                 <button onClick={handleToggle} className="btn btn-primary w-100">
                     Register User
                 </button>
