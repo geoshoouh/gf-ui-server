@@ -5,6 +5,7 @@ interface UserRegistrationFormProps {
     endpoint: string;
     token: string;
     openFormCallback: (component: UserManagementViewComponentEnum) => void;
+    closeFormCallback: (component: UserManagementViewComponentEnum) => void;
     renderOpen: boolean;
 }
 
@@ -16,7 +17,7 @@ interface NewUser {
     password: string;
 }
 
-const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token, openFormCallback, renderOpen }) => {
+const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token, openFormCallback, closeFormCallback, renderOpen }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -31,8 +32,12 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
 
     const handleToggle = () => {
         setFeedback({ message: '', type: null });
-
         openFormCallback(UserManagementViewComponentEnum.USER_REGISTRATION);
+    };
+
+    const handleCancel = () => {
+        setFeedback({ message: '', type: null });
+        closeFormCallback(UserManagementViewComponentEnum.USER_REGISTRATION);
     };
 
     const onRegister = async (newUser: NewUser) => {
@@ -127,7 +132,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
                         </select>
                     </div>
                     <div className="d-flex justify-content-between">
-                        <button type="button" onClick={handleToggle} className="btn btn-secondary">
+                        <button type="button" onClick={ handleCancel } className="btn btn-secondary">
                             Cancel
                         </button>
                         <button type="submit" className="btn btn-success">

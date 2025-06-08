@@ -5,10 +5,11 @@ interface UserDeletionFormProps {
     endpoint: string;
     token: string;
     openFormCallback: (component: UserManagementViewComponentEnum) => void;
+    closeFormCallback: (component: UserManagementViewComponentEnum) => void;
     renderOpen: boolean;
 }
 
-const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFormCallback, renderOpen }) => {
+const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFormCallback, closeFormCallback, renderOpen }) => {
     const [email, setEmail] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' | null }>({
@@ -59,6 +60,8 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFo
 
     const handleCancel = () => {
         setShowConfirmation(false);
+        closeFormCallback(UserManagementViewComponentEnum.USER_DELETION);
+        setFeedback({ message: '', type: null });
     };
 
     return (
@@ -82,7 +85,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFo
                         />
                     </div>
                     <div className="d-flex justify-content-between">
-                        <button type="button" onClick={handleToggle} className="btn btn-secondary">
+                        <button type="button" onClick={handleCancel} className="btn btn-secondary">
                             Cancel
                         </button>
                         <button type="submit" className="btn btn-danger">
