@@ -17,12 +17,10 @@ const UserManagementView: React.FC<UserManagementViewProps> = (props: UserManage
     const openFormCallback: (component: UserManagementViewComponentEnum) => void = (component: UserManagementViewComponentEnum) => {
         switch (component) {
         case UserManagementViewComponentEnum.USER_REGISTRATION:
-            console.log("reg")
             setUserRegistrationOpen(true);
             setUserDeletionOpen(false);
             break;
         case UserManagementViewComponentEnum.USER_DELETION:
-            console.log("del")
             setUserRegistrationOpen(false);
             setUserDeletionOpen(true);
             break;
@@ -31,11 +29,26 @@ const UserManagementView: React.FC<UserManagementViewProps> = (props: UserManage
             break;
         }
     };
+
+    const closeFormCallback: ( component: UserManagementViewComponentEnum ) => void = (component: UserManagementViewComponentEnum) => {
+        switch (component) {
+        case UserManagementViewComponentEnum.USER_REGISTRATION:
+            setUserRegistrationOpen(false);
+            break;
+        case UserManagementViewComponentEnum.USER_DELETION:
+            setUserDeletionOpen(false);
+            break;
+        default:
+            console.log("Unhandled UserManagementViewComponentEnum");
+            break;
+        }
+    }
+
     // TODO: Make the 'cancel' buttons on these child components work again or get rid of them 
     return (
         <>
-            <UserRegistration endpoint={props.endpoint} token={props.token} openFormCallback={ openFormCallback } renderOpen={ userRegistrationOpen }/>
-            <UserDeletion endpoint={props.endpoint} token={props.token} openFormCallback={ openFormCallback } renderOpen={ userDeletionOpen }/>
+            <UserRegistration endpoint={props.endpoint} token={props.token} openFormCallback={ openFormCallback } closeFormCallback={ closeFormCallback } renderOpen={ userRegistrationOpen }/>
+            <UserDeletion endpoint={props.endpoint} token={props.token} openFormCallback={ openFormCallback } closeFormCallback={ closeFormCallback } renderOpen={ userDeletionOpen }/>
         </>
     );
 }
