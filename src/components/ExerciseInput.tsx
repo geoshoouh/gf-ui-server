@@ -138,7 +138,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
       <div className="row justify-content-center">
         <div className="col-12 col-xl-10">
           <div className="card shadow-lg border-0">
-            <div className="card-header bg-primary text-white">
+            <div className="card-header text-white" style={{ backgroundColor: 'var(--primary-navy)' }}>
               <h4 className="mb-0">
                 <i className="bi bi-plus-circle me-2"></i>
                 Exercise Record
@@ -151,7 +151,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
                 {/* Main Selection Row */}
                 <div className="row g-3 mb-4">
                   <div className="col-md-4">
-                    <label className="form-label fw-bold text-dark">
+                    <label className="form-label fw-bold text-primary">
                       <i className="bi bi-person me-1"></i>
                       Client
                     </label>
@@ -172,7 +172,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label fw-bold text-dark">
+                    <label className="form-label fw-bold text-primary">
                       <i className="bi bi-gear me-1"></i>
                       Equipment
                     </label>
@@ -193,7 +193,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label fw-bold text-dark">
+                    <label className="form-label fw-bold text-primary">
                       <i className="bi bi-activity me-1"></i>
                       Exercise
                     </label>
@@ -216,7 +216,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
 
                 {/* Parameters Section */}
                 <div className="mb-4">
-                  <h5 className="text-dark mb-3">
+                  <h5 className="text-primary mb-3">
                     <i className="bi bi-sliders me-2"></i>
                     Exercise Parameters
                   </h5>

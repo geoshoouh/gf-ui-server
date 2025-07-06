@@ -74,10 +74,10 @@ const Login: React.FC<LoginProps> = ({ endpoint, updateUserStateFunc }) => {
                     className="d-inline-block align-top"
                 />
             </div>
-            <h2 className="text-center mb-4">Login</h2>
+            <h2 className="text-center mb-4" style={{ color: 'var(--accent-yellow)' }}>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email address</label>
+                    <label htmlFor="email" className="form-label" style={{ color: 'var(--accent-yellow)' }}>Email address</label>
                     <input
                         type="email"
                         id="email"
@@ -89,7 +89,7 @@ const Login: React.FC<LoginProps> = ({ endpoint, updateUserStateFunc }) => {
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
+                    <label htmlFor="password" className="form-label" style={{ color: 'var(--accent-yellow)' }}>Password</label>
                     <input
                         type="password"
                         id="password"

@@ -77,16 +77,16 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
     };
 
     return (
-        <div className="card shadow-sm p-3 mb-5 bg-white rounded" style={{ width: '18rem' }}>
+        <div className="card shadow-sm p-3 mb-5 rounded" style={{ width: '18rem' }}>
             {!renderOpen ? (
                 <button onClick={handleToggle} className="btn btn-primary w-100">
                     Register User
                 </button>
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <h5 className="card-title">Register User</h5>
+                    <h5 className="card-title text-primary">Register User</h5>
                     <div className="mb-3">
-                        <label htmlFor="first-name" className="form-label">First Name</label>
+                        <label htmlFor="first-name" className="form-label text-primary">First Name</label>
                         <input
                             type="text"
                             id="first-name"
@@ -97,7 +97,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="last-name" className="form-label">Last Name</label>
+                        <label htmlFor="last-name" className="form-label text-primary">Last Name</label>
                         <input
                             type="text"
                             id="last-name"
@@ -108,7 +108,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email</label>
+                        <label htmlFor="email" className="form-label text-primary">Email</label>
                         <input
                             type="email"
                             id="email"
@@ -119,7 +119,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="role" className="form-label">Role</label>
+                        <label htmlFor="role" className="form-label text-primary">Role</label>
                         <select
                             id="role"
                             className="form-select"
@@ -135,7 +135,7 @@ const UserRegistration: React.FC<UserRegistrationFormProps> = ({ endpoint, token
                         <button type="button" onClick={ handleCancel } className="btn btn-secondary">
                             Cancel
                         </button>
-                        <button type="submit" className="btn btn-success">
+                        <button type="submit" className="btn btn-primary">
                             Submit
                         </button>
                     </div>

@@ -65,10 +65,10 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ endpoint, appUser }) =>
 
     return (
         <div className="card p-4 shadow" style={{ width: '400px', margin: '50px auto' }}>
-            <h2 className="text-center mb-4">Change Password</h2>
+            <h2 className="text-center mb-4 text-primary">Change Password</h2>
             <form onSubmit={handleSubmit}>
             <div className="mb-3">
-                    <label htmlFor="currentPassword" className="form-label">Current Password</label>
+                    <label htmlFor="currentPassword" className="form-label text-primary">Current Password</label>
                     <input
                         type="password"
                         id="currentPassword"
@@ -80,7 +80,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ endpoint, appUser }) =>
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="newPassword" className="form-label">New Password</label>
+                    <label htmlFor="newPassword" className="form-label text-primary">New Password</label>
                     <input
                         type="password"
                         id="newPassword"
@@ -92,7 +92,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ endpoint, appUser }) =>
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                    <label htmlFor="confirmPassword" className="form-label text-primary">Confirm Password</label>
                     <input
                         type="password"
                         id="confirmPassword"
@@ -103,7 +103,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ endpoint, appUser }) =>
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-success w-100">Update Password</button>
+                <button type="submit" className="btn btn-primary w-100">Update Password</button>
                 {message && (
                     <div
                         className={`alert mt-4 ${

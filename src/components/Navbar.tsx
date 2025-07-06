@@ -1,10 +1,9 @@
-
 const Navbar: React.FC = () => {
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: 'var(--primary-navy)' }}>
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">
+                <a className="navbar-brand" href="#" style={{ color: 'var(--accent-yellow)' }}>
                 <img
                     src="/src/assets/gfp.webp"
                     alt="Brand Logo"

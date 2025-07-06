@@ -59,15 +59,15 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = ({ subject = '', endpoin
   };
 
   return (
-    <div className="d-flex justify-content-between align-items-center bg-light border border-secondary rounded p-2 shadow-sm w-100" style={{ margin: "5px", zIndex: 1050 }}>
-      <span className="fw-bold me-2">{subject} Status:</span>
-      <span
-        className={`rounded-circle ${getStatusClass()}`}
-        style={{ width: '12px', height: '12px' }}
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        title={getStatusTitle()}
-      ></span>
+    <div className="d-flex justify-content-between align-items-center bg-card border border-secondary rounded p-3 shadow-sm w-100" style={{ margin: "5px", zIndex: 1050 }}>
+      <span className="fw-bold me-2 text-light">{subject} Status:</span>
+      <div className="d-flex align-items-center">
+        <span
+          className={`rounded-circle me-2 ${getStatusClass()}`}
+          style={{ width: '10px', height: '10px' }}
+        ></span>
+        <small className="text-light">{getStatusTitle()}</small>
+      </div>
     </div>
   );
 };

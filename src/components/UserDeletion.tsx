@@ -65,16 +65,16 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFo
     };
 
     return (
-        <div className="card shadow-sm p-3 mb-5 bg-white rounded" style={{ width: '18rem' }}>
+        <div className="card shadow-sm p-3 mb-5 rounded" style={{ width: '18rem' }}>
             {!renderOpen ? (
                 <button onClick={handleToggle} className="btn btn-danger w-100">
                     Delete User
                 </button>
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <h5 className="card-title">Delete User</h5>
+                    <h5 className="card-title text-primary">Delete User</h5>
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email</label>
+                        <label htmlFor="email" className="form-label text-primary">Email</label>
                         <input
                             type="email"
                             id="email"
@@ -116,7 +116,7 @@ const UserDeletion: React.FC<UserDeletionFormProps> = ({ endpoint, token, openFo
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title">Confirm Deletion</h5>
+                                <h5 className="modal-title text-primary">Confirm Deletion</h5>
                                 <button
                                     type="button"
                                     className="btn-close"
