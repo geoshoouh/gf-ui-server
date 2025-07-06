@@ -68,7 +68,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ endpoint, appUser }) =>
             <h2 className="text-center mb-4">Change Password</h2>
             <form onSubmit={handleSubmit}>
             <div className="mb-3">
-                    <label htmlFor="currentPassword" className="form-label">New Password</label>
+                    <label htmlFor="currentPassword" className="form-label">Current Password</label>
                     <input
                         type="password"
                         id="currentPassword"
