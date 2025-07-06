@@ -1,6 +1,7 @@
 import Navbar from './Navbar'
 import GPF_User from '../types/Interfaces';
 import UserManagementView from './UserManagementView';
+import ExerciseInput from './ExerciseInput';
 
 interface DashboardProps {
     role: string,
@@ -13,7 +14,7 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
 
     const user: GPF_User = props.user;
-    
+
     return (
         <>
             <Navbar />
@@ -24,7 +25,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
                     <UserManagementView endpoint={props.endpoint} token={props.token}/>
                 </>
                 :
-                <h1>Trainer Stuff</h1>
+                <ExerciseInput clients={["bill", "jack"]} equipmentTypes={["ARX", "TRX"]} exerciseTypes={["pushup", "situp"]} onSubmit={() => { console.log( "submit clicked on ex in") }}  />
             } 
         </>
     );
