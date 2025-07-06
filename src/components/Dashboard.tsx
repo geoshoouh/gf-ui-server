@@ -18,13 +18,29 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
 
     const handleExerciseSubmit = async (exerciseRecord: ExerciseRecord) => {
         try {
+            // Format the data according to server expectations
+            const serverData = {
+                exerciseRecord: {
+                    client: {
+                        email: exerciseRecord.client
+                    },
+                    equipmentType: exerciseRecord.equipment,
+                    exercise: exerciseRecord.exercise,
+                    resistance: parseInt(exerciseRecord.params[0]) || 0,
+                    seatSetting: parseInt(exerciseRecord.params[1]) || 0,
+                    padSetting: parseInt(exerciseRecord.params[2]) || 0,
+                    rightArm: parseInt(exerciseRecord.params[3]) || 0,
+                    leftArm: parseInt(exerciseRecord.params[4]) || 0
+                }
+            };
+
             const response = await fetch(`${props.endpoint}/trainer/new/record`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${props.token}`,
                 },
-                body: JSON.stringify(exerciseRecord),
+                body: JSON.stringify(serverData),
             });
 
             if (response.ok) {
