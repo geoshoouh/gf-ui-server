@@ -27,6 +27,14 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
     params: ['', '', '', '', ''],
   });
 
+  const exerciseParamLabels = [
+    'Resistance',
+    'Seat Setting',
+    'Pad Setting',
+    'Right Arm',
+    'Left Arm'
+  ];
+
   const handleInputChange = (index: number, value: string) => {
     const newParams = [...formState.params];
     newParams[index] = value;
@@ -104,7 +112,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
 
             {formState.params.map((param, index) => (
               <div className="col-md-1" key={index}>
-                <label className="form-label mb-1">P{index + 1}</label>
+                <label className="form-label mb-1">{ exerciseParamLabels[index] }</label>
                 <input
                   type="text"
                   className="form-control"
