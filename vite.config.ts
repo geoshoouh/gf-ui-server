@@ -11,5 +11,17 @@ export default defineConfig({
   server: {
    port: 5173,
    host: true,
+   proxy: {
+     '/trainer': {
+       target: 'https://app.gfproto.xyz',
+       changeOrigin: true,
+       secure: true,
+     },
+     '/ping-data-server': {
+       target: 'https://app.gfproto.xyz',
+       changeOrigin: true,
+       secure: true,
+     }
+   }
   },
 })
