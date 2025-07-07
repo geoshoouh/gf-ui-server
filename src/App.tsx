@@ -40,11 +40,20 @@ const App: React.FC = () => {
         </Routes>
       </Router>
       <div
-      className="position-fixed bottom-0 start-0 d-flex flex-column"
-      style={{ margin: "20px", zIndex: 1050 }}
+        className="position-fixed bottom-0 start-0 d-flex flex-column"
+        style={{ 
+          margin: "10px", 
+          zIndex: 1050,
+          maxWidth: "250px",
+          pointerEvents: "none"
+        }}
       >
-        <StatusIndicator subject="Authentication Server" endpoint={ authServerEndpoint  + '/ping' }/>
-        <StatusIndicator subject="Data Server" endpoint={ authServerEndpoint  + '/ping-data-server' }/>
+        <div style={{ pointerEvents: "auto" }}>
+          <StatusIndicator subject="Auth" endpoint={ authServerEndpoint  + '/ping' }/>
+        </div>
+        <div style={{ pointerEvents: "auto" }}>
+          <StatusIndicator subject="Data" endpoint={ authServerEndpoint  + '/ping-data-server' }/>
+        </div>
       </div>
     </>
   )

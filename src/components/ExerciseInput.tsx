@@ -19,12 +19,13 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
     params: ['', '', '', '', ''],
   });
 
-  const [clients, setClients] = useState<string[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [equipmentTypes, setEquipmentTypes] = useState<string[]>([]);
   const [exerciseTypes, setExerciseTypes] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [clientLocked, setClientLocked] = useState(false);
 
   const exerciseParamLabels = [
     'Resistance',
@@ -52,10 +53,10 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
         if (response.ok) {
           const data = await response.json();
           
-          // Extract client names from client objects
-          const clientNames = data.clients?.map((client: Client) => client.name || client.email || 'Unknown Client') || [];
+          // Store full client objects
+          const clientObjects = data.clients || [];
           
-          setClients(clientNames);
+          setClients(clientObjects);
           setEquipmentTypes(data.equipmentTypes || []);
           setExerciseTypes(data.exerciseTypes || []);
         } else {
@@ -67,7 +68,14 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
         setError('Failed to load exercise data. Please try again.');
         
         // Fallback to mock data for development
-        setClients(['John Doe', 'Jane Smith', 'Mike Johnson', 'Sarah Wilson', 'Alex Brown', 'Emily Davis']);
+        setClients([
+          { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' },
+          { firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com' },
+          { firstName: 'Mike', lastName: 'Johnson', email: 'mike.johnson@example.com' },
+          { firstName: 'Sarah', lastName: 'Wilson', email: 'sarah.wilson@example.com' },
+          { firstName: 'Alex', lastName: 'Brown', email: 'alex.brown@example.com' },
+          { firstName: 'Emily', lastName: 'Davis', email: 'emily.davis@example.com' }
+        ]);
         setEquipmentTypes(['ARX', 'NAUTILUS', 'KINESIS', 'KEISER', 'DUMBELL', 'BODY_WEIGHT']);
         setExerciseTypes(['BICEP_CURL', 'LEG_PRESS', 'SQUAT', 'CHEST_PRESS', 'REVERSE_FLY', 'OVERHEAD_PRESS']);
         setIsLoading(false);
@@ -88,15 +96,41 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
   const handleChange = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
-    
-    // Check if all three main fields are selected to fetch latest record
-    const newFormState = { ...formState, [name]: value };
-    if (newFormState.client && newFormState.equipment && newFormState.exercise) {
-      fetchLatestRecord(newFormState.client, newFormState.equipment, newFormState.exercise);
-    } else {
-      // Clear parameters if not all three fields are selected
-      setFormState(prev => ({ ...prev, params: ['', '', '', '', ''] }));
+    // Only fetch latest record if client is locked and all fields are selected
+    if (clientLocked && name !== 'client') {
+      const newFormState = { ...formState, [name]: value };
+      if (newFormState.client && newFormState.equipment && newFormState.exercise) {
+        fetchLatestRecord(newFormState.client, newFormState.equipment, newFormState.exercise);
+      } else {
+        setFormState(prev => ({ ...prev, params: ['', '', '', '', ''] }));
+      }
     }
+  };
+
+  const handleClientSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setFormState({
+      client: e.target.value,
+      equipment: '',
+      exercise: '',
+      params: ['', '', '', '', ''],
+    });
+    setClientLocked(false);
+  };
+
+  const handleLockClient = () => {
+    if (formState.client) {
+      setClientLocked(true);
+    }
+  };
+
+  const handleUnlockClient = () => {
+    setClientLocked(false);
+    setFormState({
+      client: formState.client,
+      equipment: '',
+      exercise: '',
+      params: ['', '', '', '', ''],
+    });
   };
 
   const fetchLatestRecord = async (client: string, equipment: string, exercise: string) => {
@@ -198,120 +232,148 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
               </h4>
               <p className="mb-0 text-white-50">Log your exercise data during workout</p>
             </div>
-            
             <div className="card-body p-4">
-              <form onSubmit={handleSubmit}>
-                {/* Main Selection Row */}
-                <div className="row g-3 mb-4">
-                  <div className="col-md-4">
-                    <label className="form-label fw-bold text-primary">
-                      <i className="bi bi-person me-1"></i>
-                      Client
-                    </label>
-                    <select
-                      className="form-select form-select-lg border-2"
-                      name="client"
-                      value={formState.client}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Client</option>
-                      {clients.map((client, idx) => (
-                        <option key={idx} value={client}>
-                          {client}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="col-md-4">
-                    <label className="form-label fw-bold text-primary">
-                      <i className="bi bi-gear me-1"></i>
-                      Equipment
-                    </label>
-                    <select
-                      className="form-select form-select-lg border-2"
-                      name="equipment"
-                      value={formState.equipment}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Equipment</option>
-                      {equipmentTypes.map((type, idx) => (
-                        <option key={idx} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="col-md-4">
-                    <label className="form-label fw-bold text-primary">
-                      <i className="bi bi-activity me-1"></i>
-                      Exercise
-                    </label>
-                    <select
-                      className="form-select form-select-lg border-2"
-                      name="exercise"
-                      value={formState.exercise}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Exercise</option>
-                      {exerciseTypes.map((type, idx) => (
-                        <option key={idx} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Parameters Section */}
-                <div className="mb-4">
-                  <h5 className="text-primary mb-3">
-                    <i className="bi bi-sliders me-2"></i>
-                    Exercise Parameters
-                  </h5>
-                  <div className="row g-3">
-                    {formState.params.map((param, index) => (
-                      <div className="col-md-2 col-sm-4" key={index}>
-                        <label className="form-label fw-semibold text-secondary small">
-                          {exerciseParamLabels[index]}
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control border-2"
-                          placeholder="Value"
-                          value={param}
-                          onChange={(e) => handleInputChange(index, e.target.value)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <div className="d-grid">
-                  <button 
-                    type="submit" 
-                    className="btn btn-primary btn-lg shadow-sm"
-                    disabled={isSubmitting}
+              {/* Client Selection Row */}
+              <div className="row g-3 mb-4 align-items-end">
+                <div className="col-md-8">
+                  <label className="form-label fw-bold text-primary">
+                    <i className="bi bi-person me-1"></i>
+                    Client
+                  </label>
+                  <select
+                    className="form-select form-select-lg border-2"
+                    name="client"
+                    value={formState.client}
+                    onChange={handleClientSelect}
+                    disabled={clientLocked}
+                    required
                   >
-                    {isSubmitting ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-check-circle me-2"></i>
-                        Save Exercise Record
-                      </>
-                    )}
-                  </button>
+                    <option value="">Select Client</option>
+                    {clients.map((client, idx) => (
+                      <option key={idx} value={client.email || ''}>
+                        {client.lastName && client.firstName
+                          ? `${client.lastName}, ${client.firstName}`
+                          : client.email || 'Unknown Client'
+                        }
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              </form>
+                <div className="col-md-2">
+                  {!clientLocked && (
+                    <button
+                      type="button"
+                      className="btn btn-lg w-100 d-flex align-items-center justify-content-center"
+                      style={{ backgroundColor: '#FFD700', color: 'var(--primary-navy)', fontWeight: 700, boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', border: '2px solid #FFD700' }}
+                      onClick={handleLockClient}
+                      disabled={!formState.client}
+                    >
+                      <i className="bi bi-unlock-fill"></i>
+                    </button>
+                  )}
+                  {clientLocked && (
+                    <button
+                      type="button"
+                      className="btn btn-lg w-100 d-flex align-items-center justify-content-center"
+                      style={{ backgroundColor: '#FFD700', color: 'var(--primary-navy)', fontWeight: 700, boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', border: '2px solid #FFD700' }}
+                      onClick={handleUnlockClient}
+                    >
+                      <i className="bi bi-lock-fill"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+              {/* Only show the rest of the form if client is locked */}
+              {clientLocked && (
+                <form onSubmit={handleSubmit}>
+                  {/* Main Selection Row (equipment, exercise) */}
+                  <div className="row g-3 mb-4">
+                    <div className="col-md-4">
+                      <label className="form-label fw-bold text-primary">
+                        <i className="bi bi-gear me-1"></i>
+                        Equipment
+                      </label>
+                      <select
+                        className="form-select form-select-lg border-2"
+                        name="equipment"
+                        value={formState.equipment}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Equipment</option>
+                        {equipmentTypes.map((type, idx) => (
+                          <option key={idx} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-4">
+                      <label className="form-label fw-bold text-primary">
+                        <i className="bi bi-activity me-1"></i>
+                        Exercise
+                      </label>
+                      <select
+                        className="form-select form-select-lg border-2"
+                        name="exercise"
+                        value={formState.exercise}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Exercise</option>
+                        {exerciseTypes.map((type, idx) => (
+                          <option key={idx} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  {/* Parameters Section */}
+                  <div className="mb-4">
+                    <h5 className="text-primary mb-3">
+                      <i className="bi bi-sliders me-2"></i>
+                      Exercise Parameters
+                    </h5>
+                    <div className="row g-3">
+                      {formState.params.map((param, index) => (
+                        <div className="col-md-2 col-sm-4" key={index}>
+                          <label className="form-label fw-semibold text-secondary small">
+                            {exerciseParamLabels[index]}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control border-2"
+                            placeholder="Value"
+                            value={param}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Submit Button */}
+                  <div className="d-grid">
+                    <button 
+                      type="submit" 
+                      className="btn btn-primary btn-lg shadow-sm"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-check-circle me-2"></i>
+                          Save Exercise Record
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>
