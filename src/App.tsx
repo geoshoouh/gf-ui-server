@@ -24,7 +24,13 @@ const App: React.FC = () => {
           />
           <Route 
             path="change-password"
-            element={<ChangePassword endpoint={ authServerEndpoint } appUser={ appUser }/>}
+            element={
+              appUser.isAuthenticated ? (
+                <ChangePassword endpoint={ authServerEndpoint } appUser={ appUser }/>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
           />
           <Route
             path="/dashboard"

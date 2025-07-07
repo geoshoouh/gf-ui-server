@@ -33,6 +33,12 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ endpoint, appUser }) =>
             newPassword: newPassword,
         }
 
+        if (!appUser.role) {
+            setMessage('User role not found. Please log in again.');
+            setIsSuccess(false);
+            return;
+        }
+        
         const changePassEndpoint = endpoint + `/${appUser.role.toLowerCase()}/user/update/password`
 
         try {
