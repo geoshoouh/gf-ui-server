@@ -184,13 +184,14 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
     try {
       await onSubmit(formState);
       
-      // Reset form after successful submission
+      // Keep client, equipment, and exercise selected, but clear parameters
       setFormState({
-        client: '',
-        equipment: '',
-        exercise: '',
+        client: formState.client, // Keep the same client
+        equipment: formState.equipment, // Keep the same equipment
+        exercise: formState.exercise, // Keep the same exercise
         params: ['', '', '', '', ''],
       });
+      // Keep clientLocked as true so the form stays open
     } catch (err) {
       console.error('Error submitting exercise record:', err);
     } finally {
@@ -223,7 +224,7 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
   return (
     <div className="container-fluid py-4">
       <div className="row justify-content-center">
-        <div className="col-12 col-xl-10">
+        <div className="col-auto">
           <div className="card shadow-lg border-0">
             <div className="card-header text-white" style={{ backgroundColor: 'var(--primary-navy)' }}>
               <h4 className="mb-0">
@@ -234,12 +235,12 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
             </div>
             <div className="card-body p-4">
               {/* Client Selection Row */}
-              <div className="row g-3 mb-4 align-items-end">
-                <div className="col-md-8">
-                  <label className="form-label fw-bold text-primary">
-                    <i className="bi bi-person me-1"></i>
-                    Client
-                  </label>
+              <div className="mb-4">
+                <label className="form-label fw-bold text-primary">
+                  <i className="bi bi-person me-1"></i>
+                  Client
+                </label>
+                <div className="d-flex align-items-center gap-3">
                   <select
                     className="form-select form-select-lg border-2"
                     name="client"
@@ -247,42 +248,60 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
                     onChange={handleClientSelect}
                     disabled={clientLocked}
                     required
+                    style={{ 
+                      width: 'auto',
+                      minWidth: '250px'
+                    }}
                   >
-                    <option value="">Select Client</option>
-                    {clients.map((client, idx) => (
-                      <option key={idx} value={client.email || ''}>
-                        {client.lastName && client.firstName
-                          ? `${client.lastName}, ${client.firstName}`
-                          : client.email || 'Unknown Client'
-                        }
-                      </option>
-                    ))}
-                  </select>
+                      <option value="">Select Client</option>
+                      {clients.map((client, idx) => (
+                        <option key={idx} value={client.email || ''}>
+                          {client.lastName && client.firstName
+                            ? `${client.lastName}, ${client.firstName}`
+                            : client.email || 'Unknown Client'
+                          }
+                        </option>
+                      ))}
+                    </select>
+                    {!clientLocked && (
+                      <button
+                        type="button"
+                        className="btn btn-lg d-flex align-items-center justify-content-center flex-shrink-0"
+                        style={{ 
+                          backgroundColor: '#FFD700', 
+                          color: 'var(--primary-navy)', 
+                          fontWeight: 700, 
+                          boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', 
+                          border: '2px solid #FFD700',
+                          width: '60px',
+                          height: '48px'
+                        }}
+                        onClick={handleLockClient}
+                        disabled={!formState.client}
+                      >
+                        <i className="bi bi-unlock-fill"></i>
+                      </button>
+                    )}
+                    {clientLocked && (
+                      <button
+                        type="button"
+                        className="btn btn-lg d-flex align-items-center justify-content-center flex-shrink-0"
+                        style={{ 
+                          backgroundColor: '#FFD700', 
+                          color: 'var(--primary-navy)', 
+                          fontWeight: 700, 
+                          boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', 
+                          border: '2px solid #FFD700',
+                          width: '60px',
+                          height: '48px'
+                        }}
+                        onClick={handleUnlockClient}
+                      >
+                        <i className="bi bi-lock-fill"></i>
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <div className="col-md-2">
-                  {!clientLocked && (
-                    <button
-                      type="button"
-                      className="btn btn-lg w-100 d-flex align-items-center justify-content-center"
-                      style={{ backgroundColor: '#FFD700', color: 'var(--primary-navy)', fontWeight: 700, boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', border: '2px solid #FFD700' }}
-                      onClick={handleLockClient}
-                      disabled={!formState.client}
-                    >
-                      <i className="bi bi-unlock-fill"></i>
-                    </button>
-                  )}
-                  {clientLocked && (
-                    <button
-                      type="button"
-                      className="btn btn-lg w-100 d-flex align-items-center justify-content-center"
-                      style={{ backgroundColor: '#FFD700', color: 'var(--primary-navy)', fontWeight: 700, boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', border: '2px solid #FFD700' }}
-                      onClick={handleUnlockClient}
-                    >
-                      <i className="bi bi-lock-fill"></i>
-                    </button>
-                  )}
-                </div>
-              </div>
               {/* Only show the rest of the form if client is locked */}
               {clientLocked && (
                 <form onSubmit={handleSubmit}>
