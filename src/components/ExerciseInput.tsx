@@ -93,6 +93,9 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
     const newFormState = { ...formState, [name]: value };
     if (newFormState.client && newFormState.equipment && newFormState.exercise) {
       fetchLatestRecord(newFormState.client, newFormState.equipment, newFormState.exercise);
+    } else {
+      // Clear parameters if not all three fields are selected
+      setFormState(prev => ({ ...prev, params: ['', '', '', '', ''] }));
     }
   };
 
@@ -125,11 +128,18 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
             data.exerciseRecord.leftArm?.toString() || ''
           ];
           setFormState(prev => ({ ...prev, params: latestParams }));
+        } else {
+          // Clear parameters if no record found
+          setFormState(prev => ({ ...prev, params: ['', '', '', '', ''] }));
         }
+      } else {
+        // Clear parameters if request failed
+        setFormState(prev => ({ ...prev, params: ['', '', '', '', ''] }));
       }
     } catch (error) {
       console.error('Error fetching latest record:', error);
-      // Silently fail - just leave params blank if fetch fails
+      // Clear parameters if fetch fails
+      setFormState(prev => ({ ...prev, params: ['', '', '', '', ''] }));
     }
   };
 
