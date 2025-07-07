@@ -1,4 +1,9 @@
-const Navbar: React.FC = () => {
+interface NavbarProps {
+    currentView: string;
+    onViewChange: (view: string) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange }) => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: 'var(--primary-navy)' }}>
@@ -13,17 +18,45 @@ const Navbar: React.FC = () => {
                 />
                 Genesis Training Manager
                 </a>
-                <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                <span className="navbar-toggler-icon"></span>
-                </button>
+                
+                {/* Right-aligned hamburger menu */}
+                <div className="navbar-nav ms-auto">
+                    <div className="nav-item dropdown">
+                        <button
+                            className="btn btn-link nav-link dropdown-toggle"
+                            type="button"
+                            id="navbarDropdown"
+                            data-bs-toggle="dropdown"
+                            data-bs-auto-close="true"
+                            aria-expanded="false"
+                            style={{ color: 'var(--accent-yellow)', border: 'none', background: 'none' }}
+                        >
+                            <i className="bi bi-list fs-4"></i>
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <button
+                                    className={`dropdown-item ${currentView === 'exercise' ? 'active' : ''}`}
+                                    onClick={() => onViewChange('exercise')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <i className="bi bi-plus-circle me-2"></i>
+                                    Exercise Input
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    className={`dropdown-item ${currentView === 'export' ? 'active' : ''}`}
+                                    onClick={() => onViewChange('export')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <i className="bi bi-download me-2"></i>
+                                    Export History
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </nav>
     );
