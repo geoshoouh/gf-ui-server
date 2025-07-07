@@ -88,6 +88,49 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
   const handleChange = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
+    
+    // Check if all three main fields are selected to fetch latest record
+    const newFormState = { ...formState, [name]: value };
+    if (newFormState.client && newFormState.equipment && newFormState.exercise) {
+      fetchLatestRecord(newFormState.client, newFormState.equipment, newFormState.exercise);
+    }
+  };
+
+  const fetchLatestRecord = async (client: string, equipment: string, exercise: string) => {
+    try {
+      const response = await fetch(`${endpoint}/trainer/get/record/latest`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          client: {
+            email: client
+          },
+          equipmentType: equipment,
+          exerciseType: exercise
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.exerciseRecord) {
+          // Auto-populate parameters with latest record values
+          const latestParams = [
+            data.exerciseRecord.resistance?.toString() || '',
+            data.exerciseRecord.seatSetting?.toString() || '',
+            data.exerciseRecord.padSetting?.toString() || '',
+            data.exerciseRecord.rightArm?.toString() || '',
+            data.exerciseRecord.leftArm?.toString() || ''
+          ];
+          setFormState(prev => ({ ...prev, params: latestParams }));
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching latest record:', error);
+      // Silently fail - just leave params blank if fetch fails
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
