@@ -5,6 +5,7 @@ import type { ExerciseRecord } from '../types/Interfaces';
 import UserManagementView from './UserManagementView';
 import ExerciseInput from './ExerciseInput';
 import ExerciseHistoryExport from './ExerciseHistoryExport';
+import BulkRecordUpload from './BulkRecordUpload';
 
 interface DashboardProps {
     role: string,
@@ -80,6 +81,12 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
                     )}
                     {currentView === 'export' && (
                         <ExerciseHistoryExport 
+                            endpoint={props.endpoint} 
+                            token={props.token} 
+                        />
+                    )}
+                    {currentView === 'bulk-upload' && (
+                        <BulkRecordUpload 
                             endpoint={props.endpoint} 
                             token={props.token} 
                         />

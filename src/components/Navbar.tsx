@@ -54,6 +54,16 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange }) => {
                                     Export History
                                 </button>
                             </li>
+                            <li>
+                                <button
+                                    className={`dropdown-item ${currentView === 'bulk-upload' ? 'active' : ''}`}
+                                    onClick={() => onViewChange('bulk-upload')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <i className="bi bi-upload me-2"></i>
+                                    Bulk Upload
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </div>
